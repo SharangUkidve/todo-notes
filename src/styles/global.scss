@@ -1,0 +1,55 @@
+@import './variables.scss';
+@import './mixins.scss';
+
+html,
+body {
+  min-height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  transition: all 300ms;
+  box-sizing: border-box;
+  outline: none;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+
+  &::selection {
+    color: white;
+    background-color: $color-blue;
+  }
+}
+
+input,
+textarea {
+  caret-color: $color-blue;
+  outline: none;
+}
+
+button,
+a {
+  outline: none;
+  cursor: pointer;
+  user-select: none;
+}
+
+.page-title {
+  text-align: center;
+}
+
+.button-link {
+  @include base-button;
+  color: $color-blue;
+}
+
+.button-icon {
+  @include base-button;
+  width: 30px;
+  height: 30px;
+  padding: 3px;
+  color: $color-blue;
+}

@@ -1,0 +1,29 @@
+$color-red: #ff3b30;
+$color-blue: #007aff;
+$color-green: #29d398;
+$color-green-alt: #42b983;
+$color-grey: #777777;
+$color-text: #2c3e50;
+$color-border: rgba(0, 0, 0, 0.15);
+
+$border: 1px solid $color-border;
+
+.slide-up-enter-active {
+  animation: slide-up 300ms;
+}
+
+.slide-up-leave-active {
+  animation: slide-up 300ms reverse;
+}
+
+@keyframes slide-up {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
