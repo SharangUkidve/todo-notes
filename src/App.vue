@@ -19,14 +19,14 @@ export default {
 @import "./styles/global.scss";
 #app {
   color: $color-text;
-  width: 100%;
   min-height: 100vh;
+  width: 100%;
 
   .main-container {
-    width: 100%;
+    margin: auto;
     max-width: 1000px;
     padding: 10px;
-    margin: auto;
+    width: 100%;
   }
 }
 </style>

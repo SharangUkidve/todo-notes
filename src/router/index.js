@@ -5,7 +5,8 @@ import Notes from "../views/Notes.vue";
 
 Vue.use(VueRouter);
 
-const routes = [{
+const routes = [
+  {
     path: "/todos",
     name: "todos",
     component: Todos
