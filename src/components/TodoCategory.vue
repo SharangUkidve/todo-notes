@@ -23,18 +23,27 @@
         @keyup.esc="cancelTitleEdit"
       />
 
-      <span v-if="infoText">{{ infoText }}</span>
+      <span class="pending-text" v-if="infoText">{{ infoText }}</span>
       <icon-button
-        class="edit-button"
-        @click.stop="toggleTitleEdit"
+        class="delete-button red-text"
+        title="Cancel Edit Title"
+        v-if="categoryTitleEditing"
+        @click.stop="cancelTitleEdit()"
+      >
+        cancel
+      </icon-button>
+      <icon-button
+        class="edit-button green-text"
         :title="categoryTitleEditing ? 'Save New Title' : 'Edit Category Title'"
+        @click.stop="toggleTitleEdit"
       >
         {{ categoryTitleEditing ? "check" : "edit" }}
       </icon-button>
       <icon-button
-        class="delete-button"
-        @click.stop="deleteCategory"
+        class="delete-button red-text"
         title="Delete Category"
+        v-if="!categoryTitleEditing"
+        @click.stop="deleteCategory"
       >
         delete
       </icon-button>
@@ -68,9 +77,9 @@
         <icon-button
           class="blue-text"
           tabindex="-1"
+          title="Save New Todo"
           v-if="catSearch.length && !filteredItems.length"
           @click="addFromSearch"
-          title="Save New Todo"
         >
           add
         </icon-button>
@@ -105,17 +114,17 @@
             <icon-button
               size="16px"
               class="grey-text"
+              title="Clear New Todo"
               v-if="newTodoModel.length"
               @click="resetNewTodo"
-              title="Clear New Todo"
             >
               cancel
             </icon-button>
             <icon-button
               class="blue-text"
+              title="Save New Todo"
               v-if="newTodoModel.length"
               @click="addNewTodo"
-              title="Save New Todo"
             >
               check
             </icon-button>
@@ -181,6 +190,7 @@ export default {
     },
     cancelTitleEdit() {
       this.categoryTitleEditing = false;
+      this.categoryNewTitle = this.category.title;
     },
     deleteCategory() {
       this.$emit("category-delete");
@@ -258,10 +268,10 @@ export default {
 
   &-header {
     align-items: center;
+    cursor: pointer;
     display: flex;
     justify-content: space-between;
     padding: 5px;
-    cursor: pointer;
 
     .expand-button {
       color: $color-blue;
@@ -289,23 +299,10 @@ export default {
       border: none;
     }
 
-    .edit-button,
-    .delete-button {
-      opacity: 0.5;
-
-      &:active,
-      &:focus,
-      &:hover {
-        opacity: 1;
-      }
-    }
-
-    .edit-button {
-      color: $color-green;
-    }
-
-    .delete-button {
-      color: $color-red;
+    .pending-text {
+      font-size: 14px;
+      letter-spacing: -1px;
+      margin: 0 8px;
     }
   }
 

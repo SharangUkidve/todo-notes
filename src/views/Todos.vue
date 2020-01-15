@@ -1,6 +1,5 @@
 <template>
   <div class="page-container">
-    <h1 class="page-title">Todos</h1>
     <div class="form-group add-cat">
       <label for="newCatTitle" class="icon-button grey-text">
         <i class="material-icons">add</i>
@@ -19,8 +18,8 @@
       />
       <icon-button
         class="grey-text"
-        @click="resetNewCategory"
         v-if="newCatTitle.length"
+        @click="resetNewCategory"
       >
         cancel
       </icon-button>
@@ -29,8 +28,8 @@
       }}</span>
       <icon-button
         class="blue-text"
-        @click="resetNewCategory"
         v-if="newCatTitle.length"
+        @click="resetNewCategory"
       >
         check
       </icon-button>
@@ -50,12 +49,15 @@
 <script>
 import TodoCategory from "../components/TodoCategory";
 import { mapState, mapMutations } from "vuex";
+import titleMixin from "../mixins/title-mixin";
 export default {
   components: { TodoCategory },
+  mixins: [titleMixin],
   computed: mapState(["categories"]),
   data() {
     return {
-      newCatTitle: ""
+      newCatTitle: "",
+      title: "Todos"
     };
   },
   methods: {
@@ -89,12 +91,18 @@ export default {
 
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
+
+.page-container {
+  font-family: "Comfortaa", cursive;
+}
+
 .add-cat {
   border: $border;
   .form-group-input {
     font-weight: 600;
   }
 }
+
 .cat-cards-container {
   border: $border;
   border-top: none;
@@ -102,9 +110,5 @@ export default {
   &:empty {
     border: none;
   }
-}
-
-.post-text {
-  align-self: center;
 }
 </style>

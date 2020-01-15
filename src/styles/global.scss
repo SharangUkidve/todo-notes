@@ -3,24 +3,25 @@
 
 html,
 body {
-  min-height: 100%;
-  width: 100%;
   margin: 0;
+  min-height: 100%;
   padding: 0;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 * {
-  transition: all 300ms;
   box-sizing: border-box;
+  font-family: inherit;
   outline: none;
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  transition: all 300ms;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-tap-highlight-color: transparent;
 
   &::selection {
+    background-color: $color-green-alt;
     color: white;
-    background-color: $color-blue;
   }
 }
 
@@ -32,8 +33,8 @@ textarea {
 
 button,
 a {
-  outline: none;
   cursor: pointer;
+  outline: none;
   user-select: none;
 }
 
@@ -47,26 +48,27 @@ a {
 }
 
 .form-group {
+  border-bottom: $border;
   display: flex;
   padding: 5px;
-  border-bottom: $border;
 
   &-input {
-    padding: 0 4px;
-    flex: 1;
     border: none;
+    background-color: transparent;
+    flex: 1;
     font-size: 16px;
+    padding: 0 4px;
   }
 }
 
 .checkbox {
-  width: 16px;
-  height: 16px;
-  display: inline-block;
-  border-radius: 3px;
-  border: $border;
   background-color: #ffffff;
+  border: $border;
+  border-radius: 3px;
+  display: inline-block;
+  height: 16px;
   transition: all 300ms;
+  width: 16px;
 
   .check {
     color: #ffffff;
@@ -80,10 +82,10 @@ a {
 }
 
 .hidden-input {
+  appearance: none;
+  height: 1px;
   position: absolute;
   width: 1px;
-  height: 1px;
-  appearance: none;
 }
 
 .grey-text {
@@ -94,6 +96,53 @@ a {
   color: $color-blue;
 }
 
+.red-text {
+  color: $color-red;
+}
+
+.green-text {
+  color: $color-green;
+}
+
 .icon-small {
   font-size: 16px;
+}
+
+.icon-button {
+  @include base-button();
+  align-items: center;
+  display: flex;
+  height: 30px;
+  justify-content: center;
+  padding: 3px;
+  width: 30px;
+
+  i {
+    font-size: 20px;
+  }
+}
+
+.edit-button,
+.delete-button {
+  opacity: 0.5;
+
+  &:active,
+  &:focus,
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.modal-open {
+  overflow: hidden;
+  height: 100vh;
+}
+
+.align-center {
+  align-self: center;
+}
+
+.post-text {
+  align-self: center;
+  font-size: 14px;
 }

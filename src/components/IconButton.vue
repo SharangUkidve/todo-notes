@@ -25,20 +25,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-@import "../styles/variables.scss";
-@import "../styles/mixins.scss";
-.icon-button {
-  @include base-button();
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 30px;
-  width: 30px;
-  padding: 3px;
-  i {
-    font-size: 20px;
-  }
-}
-</style>

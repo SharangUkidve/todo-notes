@@ -61,8 +61,8 @@ export default {
     align-items: center;
     display: flex;
     flex: 1;
-    position: relative;
     padding: 8px 0;
+    position: relative;
   }
 
   &:hover {

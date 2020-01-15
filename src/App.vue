@@ -23,7 +23,7 @@ export default {
   width: 100%;
 
   .main-container {
-    margin: auto;
+    margin: 60px auto;
     max-width: 1000px;
     padding: 10px;
     width: 100%;

@@ -49,10 +49,12 @@ export default {
         const activeAnchor = this.getActiveLinkElement(this.$refs.navLinks);
         if (activeAnchor) {
           this.$refs.activeTabIndicator.style.left =
-            activeAnchor.offsetLeft + "px";
+            activeAnchor.offsetLeft - 1 + "px";
           this.$refs.activeTabIndicator.style.width =
             (activeAnchor.clientWidth ||
-              activeAnchor.getBoundingClientRect().width) + "px";
+              activeAnchor.getBoundingClientRect().width) -
+            1 +
+            "px";
         } else {
           this.$refs.activeTabIndicator.style.width = 0;
         }
@@ -70,34 +72,38 @@ export default {
 @import "../styles/variables.scss";
 .app-header {
   border-bottom: $border;
+  font-family: "Gochi Hand", sans-serif;
   position: relative;
+  user-select: none;
 
   .app-title {
+    letter-spacing: 2px;
     margin: 0;
     padding: 10px;
   }
 
   &-nav {
-    max-width: 1000px;
     margin: auto;
+    max-width: 1000px;
     text-align: center;
 
     .nav-list {
       display: flex;
       list-style: none;
-      padding: 0;
       margin: 0;
+      padding: 0;
 
       &-item {
         width: 100%;
 
         .nav-link {
+          color: inherit;
           display: block;
-          width: 100%;
+          font-size: 19px;
+          opacity: 0.8;
           padding: 10px;
           text-decoration: none;
-          color: inherit;
-          opacity: 0.8;
+          width: 100%;
 
           &-active {
             font-weight: bold;
@@ -109,13 +115,13 @@ export default {
   }
 
   .active-tab-indicator {
-    position: absolute;
-    height: 2px;
-    bottom: -1px;
-    left: 0;
     background-color: $color-blue;
-    width: 100%;
+    bottom: -1px;
+    height: 2px;
+    left: 0;
+    position: absolute;
     transition: all 300ms;
+    width: 100%;
     z-index: 10;
   }
 }
