@@ -1,9 +1,14 @@
 <template>
   <div class="hidden-overlay">
-    <form class="modal" @submit.prevent="emitSaveNote()" autocomplete="off">
-      <header class="modal-header">
+    <form
+      class="modal"
+      @submit.prevent="emitSaveNote()"
+      autocomplete="off"
+      @keyup.esc="emitCloseModal"
+    >
+      <div class="modal-header">
         <h2>{{ note && note.content.length ? "Edit Note" : "Add Note" }}</h2>
-      </header>
+      </div>
       <fieldset class="modal-body">
         <div class="form-group">
           <label for="noteTitle" class="icon-button">
@@ -11,6 +16,7 @@
           </label>
           <input
             type="text"
+            v-autofocus
             id="noteTitle"
             name="noteTitle"
             placeholder="Note title goes here..."
@@ -34,11 +40,11 @@
             class="form-group-input textarea"
             v-autoexpand="{ min: 150 }"
             required
-            v-model.trim="newNote.content"
-            maxlength="2000"
+            v-model="newNote.content"
+            maxlength="750"
           />
           <span class="post-text full-width">{{
-            newNote.content.length + "/2000"
+            newNote.content.length + "/750"
           }}</span>
         </div>
         <div class="form-group">
@@ -63,12 +69,14 @@
           </select>
         </div>
       </fieldset>
-      <footer class="modal-footer">
+      <div class="modal-footer">
         <button type="button" class="cancel" @click="emitCloseModal">
           Cancel
         </button>
-        <button type="submit" class="save" :disabled="disableSave">Save</button>
-      </footer>
+        <button type="submit" class="save" :disabled="disableSave">
+          Save
+        </button>
+      </div>
     </form>
   </div>
 </template>

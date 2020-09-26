@@ -16,14 +16,11 @@
       <div class="checkbox" :class="{ checked: todo.done }">
         <i class="material-icons check" v-if="todo.done">check</i>
       </div>
-      <!-- <span class="todo-item-text" :class="{ striked: todo.done }"> -->
       {{ todo.title }}
-      <!-- </span> -->
     </label>
     <icon-button
-      class="todo-item-remove"
+      class="delete-button todo-item-remove"
       @click="emitRemove"
-      tabindex="-1"
       title="Delete Todo"
     >
       remove

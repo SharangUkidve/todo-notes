@@ -19,24 +19,27 @@
         @save-note="saveNote($event)"
       />
     </transition>
-    <button
+    <icon-button
       class="add-button"
-      :class="{ rotated: showAddNote }"
       @click="toggleNoteModal"
+      :class="{ rotated: showAddNote }"
+      size="32px"
     >
-      <i class="material-icons">add</i>
-    </button>
+      add
+    </icon-button>
   </div>
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapActions } from "vuex";
 import NoteCard from "../components/NoteCard";
 import AddNote from "../components/AddNote";
 import titleMixin from "../mixins/title-mixin";
-
 export default {
-  components: { NoteCard, AddNote },
+  components: {
+    NoteCard,
+    AddNote
+  },
   mixins: [titleMixin],
   computed: mapState(["notes"]),
   data() {
@@ -47,7 +50,7 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(["deleteNote"]),
+    ...mapActions(["deleteNote"]),
     openNoteModal(note = null) {
       this.editingNote = note;
       this.showAddNote = true;
@@ -60,7 +63,7 @@ export default {
       this.showAddNote = !this.showAddNote;
     },
     saveNote(note) {
-      this.$store.commit(note.id ? "updateNote" : "addNote", note);
+      this.$store.dispatch(note.id ? "updateNote" : "addNote", note);
       this.closeNoteModal();
     }
   }

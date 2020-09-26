@@ -1,6 +1,6 @@
 <template>
   <section class="category-card" :class="{ expanded: expanded }">
-    <header
+    <div
       class="category-card-header"
       role="button"
       tabindex="0"
@@ -10,7 +10,13 @@
       <span class="expand-button icon-button" title="Expand/Collapse Category">
         <i class="material-icons">{{ expanded ? "remove" : "add" }}</i>
       </span>
-      <h3 class="title" v-if="!categoryTitleEditing">{{ category.title }}</h3>
+      <h2
+        class="title"
+        v-if="!categoryTitleEditing"
+        @dblclick="toggleTitleEdit"
+      >
+        {{ category.title }}
+      </h2>
       <input
         type="text"
         class="form-field title-edit"
@@ -25,10 +31,11 @@
 
       <span class="pending-text" v-if="infoText">{{ infoText }}</span>
       <icon-button
-        class="delete-button red-text"
+        class="delete-button grey-text"
         title="Cancel Edit Title"
         v-if="categoryTitleEditing"
         @click.stop="cancelTitleEdit()"
+        size="18px"
       >
         cancel
       </icon-button>
@@ -47,7 +54,7 @@
       >
         delete
       </icon-button>
-    </header>
+    </div>
     <div class="category-card-body" v-if="expanded">
       <div class="form-group" v-if="category.items && category.items.length">
         <label
@@ -62,6 +69,7 @@
           class="form-group-input"
           placeholder="Search..."
           autocomplete="off"
+          @keyup.enter="addFromSearch"
           :id="'catSearch' + category.title"
           v-model.trim="catSearch"
         />
@@ -71,6 +79,7 @@
           v-if="catSearch.length"
           @click="resetSearch"
           title="Clear Search"
+          size="18px"
         >
           cancel
         </icon-button>
@@ -89,8 +98,10 @@
           v-for="todo of filteredItems"
           :key="todo.title"
           :todo="todo"
-          @todo-update="updateTodoStatus($event, todo)"
-          @todo-delete="deleteTodo(todo)"
+          @todo-update="
+            updateTodoStatus({ categoryId: category.id, todo, done: $event })
+          "
+          @todo-delete="deleteTodo({ categoryId: category.id, todo })"
         />
         <li v-show="!catSearch.length">
           <div class="form-group add-todo">
@@ -110,9 +121,10 @@
               v-model.trim="newTodoModel"
               @keyup.enter="addNewTodo"
               @keyup.esc="resetNewTodo"
+              :disabled="submitting"
             />
             <icon-button
-              size="16px"
+              size="18px"
               class="grey-text"
               title="Clear New Todo"
               v-if="newTodoModel.length"
@@ -137,6 +149,7 @@
 
 <script>
 import TodoItem from "./TodoItem";
+import { mapActions } from "vuex";
 export default {
   components: { TodoItem },
   props: {
@@ -151,7 +164,8 @@ export default {
       newTodoModel: "",
       categoryTitleEditing: false,
       categoryNewTitle: "",
-      expanded: false
+      expanded: false,
+      submitting: false
     };
   },
   computed: {
@@ -178,6 +192,8 @@ export default {
     this.categoryNewTitle = this.category.title;
   },
   methods: {
+    ...mapActions({ addTodo: "addNewTodo" }),
+    ...mapActions(["updateTodoStatus", "deleteTodo"]),
     toggleTitleEdit() {
       if (
         this.categoryTitleEditing &&
@@ -197,6 +213,7 @@ export default {
     },
     resetNewTodo() {
       this.newTodoModel = "";
+      this.submitting = false;
     },
     canAdd(title) {
       if (!title || !title.trim().length) {
@@ -208,38 +225,23 @@ export default {
       return !lowerTodos.includes(title.toLowerCase());
     },
     addNewTodo() {
-      if (this.canAdd(this.newTodoModel)) {
-        this.$store.commit("addNewTodo", {
-          categoryId: this.category.id,
-          todoTitle: this.newTodoModel
-        });
-        this.resetNewTodo();
-      }
+      this.submitting = true;
+      this.addTodo({
+        categoryId: this.category.id,
+        todoTitle: this.newTodoModel
+      }).finally(() => this.resetNewTodo());
+    },
+    addFromSearch() {
+      this.addTodo({
+        categoryId: this.category.id,
+        todoTitle: this.catSearch
+      }).finally(() => this.resetSearch());
     },
     resetSearch() {
       this.catSearch = "";
     },
     toggleExpansion() {
       this.expanded = !this.expanded;
-    },
-    addFromSearch() {
-      if (this.canAdd(this.catSearch)) {
-        this.$store.commit("addNewTodo", {
-          categoryId: this.category.id,
-          todoTitle: this.catSearch
-        });
-        this.resetSearch();
-      }
-    },
-    updateTodoStatus(newValue, todo) {
-      this.$store.commit("updateTodoStatus", {
-        categoryId: this.category.id,
-        todo,
-        done: newValue
-      });
-    },
-    deleteTodo(todo) {
-      this.$store.commit("deleteTodo", { categoryId: this.category.id, todo });
     }
   }
 };

@@ -20,6 +20,7 @@
         class="grey-text"
         v-if="newCatTitle.length"
         @click="resetNewCategory"
+        size="18px"
       >
         cancel
       </icon-button>
@@ -48,7 +49,7 @@
 
 <script>
 import TodoCategory from "../components/TodoCategory";
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapActions } from "vuex";
 import titleMixin from "../mixins/title-mixin";
 export default {
   components: { TodoCategory },
@@ -61,26 +62,14 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(["deleteCategory"]),
-    canAdd(title) {
-      if (!title || !title.length) {
-        return false;
-      }
-      const lowerCategories = this.categories.map(cat =>
-        cat.title.toLowerCase()
-      );
-      return !lowerCategories.includes(title.toLowerCase());
-    },
+    ...mapActions(["deleteCategory"]),
     addNewCategory() {
-      if (this.canAdd(this.newCatTitle)) {
-        this.$store.commit("addNewCategory", this.newCatTitle);
-        this.resetNewCategory();
-      }
+      this.$store
+        .dispatch("addCategory", this.newCatTitle)
+        .finally(() => this.resetNewCategory());
     },
     changeCategoryTitle(newTitle, categoryId) {
-      if (this.canAdd(newTitle)) {
-        this.$store.commit("updateCategoryTitle", { categoryId, newTitle });
-      }
+      this.$store.dispatch("updateCategoryTitle", { categoryId, newTitle });
     },
     resetNewCategory() {
       this.newCatTitle = "";

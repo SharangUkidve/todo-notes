@@ -20,7 +20,7 @@
     </header>
     <p class="note-text">{{ note.content }}</p>
     <small class="note-time">
-      Last Mod. <time>{{ note.date }}</time>
+      <time>{{ note.date }}</time>
     </small>
   </div>
 </template>

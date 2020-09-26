@@ -3,8 +3,8 @@ import Vuex from "vuex";
 
 Vue.use(Vuex);
 
-let categoryId = 9000;
-let noteId = 90000;
+let categoryId = new Date().getTime() + 2091;
+let noteId = new Date().getTime() + 2109;
 const months = [
   "January",
   "February",
@@ -23,143 +23,143 @@ const months = [
 function getDate() {
   const date = new Date();
   let formattedDate;
-  let day = date.getDay();
-  if (day < 10) {
-    day = "0" + day;
-  }
+  const day = zeroPad(date.getDate());
   const month = months[date.getMonth()];
   const year = date.getFullYear();
-  formattedDate = `${day} ${month}, ${year}`;
+  const hours = zeroPad(date.getHours());
+  const minutes = zeroPad(date.getMinutes());
+  formattedDate = `${hours}:${minutes} on ${month} ${day}, ${year}`;
   return formattedDate;
 }
 
+function zeroPad(num) {
+  if (num < 10) {
+    return "0" + num;
+  }
+  return num;
+}
+
+function getInitialTheme() {
+  if (
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches
+  ) {
+    return true;
+  }
+  return false;
+}
+
+function canAddTodo({ todoTitle, categoryId }, state) {
+  if (!todoTitle || !todoTitle.trim().length) {
+    return false;
+  }
+  const category = state.categories.find(
+    category => category.id === categoryId
+  );
+  if (!category) {
+    return false;
+  }
+  return !category.items.some(
+    todo => todo.title.toLowerCase() === todoTitle.toLowerCase()
+  );
+}
+
+function canAddTodoCategory(categories, title) {
+  if (!title || !title.length) {
+    return false;
+  }
+  const lowerCategories = categories.map(cat => cat.title.toLowerCase());
+  return !lowerCategories.includes(title.toLowerCase());
+}
+
+function saveTodos(todos) {
+  localStorage.setItem("todos", JSON.stringify(todos || []));
+}
+
+function saveNotes(notes) {
+  localStorage.setItem("notes", JSON.stringify(notes || []));
+}
+
+const defaultTodo = {
+  id: 0,
+  title: "Groceries",
+  items: [
+    {
+      title: "Milk",
+      done: false
+    },
+    {
+      title: "Bread",
+      done: false
+    },
+    {
+      title: "Cheese",
+      done: false
+    },
+    {
+      title: "Butter",
+      done: false
+    }
+  ]
+};
+
+const defaultNote = {
+  id: noteId++,
+  title: "Sample Note",
+  content:
+    "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Esse, illo consequatur iusto dolore qui assumenda saepe quod quia deserunt aliquid commodi, ullam enim est quibusdam quos doloremque soluta consequuntur provident.",
+  tag: {
+    value: "personal",
+    color: "lightpink",
+    title: "Personal"
+  },
+  date: getDate()
+};
+
 export default new Vuex.Store({
   state: {
-    categories: [
-      {
-        id: categoryId++,
-        title: "Tools",
-        items: [
-          {
-            title: "Hammer",
-            done: false
-          },
-          {
-            title: "Screwdriver",
-            done: false
-          },
-          {
-            title: "Wrench",
-            done: true
-          }
-        ]
-      },
-      {
-        id: categoryId++,
-        title: "Devices",
-        items: [
-          {
-            title: "iPad",
-            done: false
-          },
-          {
-            title: "iPhone",
-            done: false
-          }
-        ]
-      },
-      {
-        id: categoryId++,
-        title: "Groceries",
-        items: [
-          {
-            title: "Milk",
-            done: false
-          },
-          {
-            title: "Bread",
-            done: false
-          },
-          {
-            title: "Cheese",
-            done: false
-          },
-          {
-            title: "Butter",
-            done: false
-          }
-        ]
-      }
-    ],
+    isDark: JSON.parse(
+      localStorage.getItem("prefersDarkTheme") || getInitialTheme()
+    ),
+    newUser: JSON.parse(localStorage.getItem("newUser") || true),
+    categories: JSON.parse(localStorage.getItem("todos")) || [defaultTodo],
     noteCategories: [
-      { value: "personal", title: "Personal", color: "lightpink" },
-      { value: "work", title: "Work", color: "aquamarine" },
-      { value: "misc", title: "Miscellaneous", color: "lightyellow" }
-    ],
-    notes: [
       {
-        id: noteId++,
-        title: "Testing 1",
-        content:
-          "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Esse, illo consequatur iusto dolore qui assumenda saepe quod quia deserunt aliquid commodi, ullam enim est quibusdam quos doloremque soluta consequuntur provident.",
-        tag: { value: "personal", color: "lightpink", title: "Personal" },
-        date: "30 September, 2018"
+        value: "personal",
+        title: "Personal",
+        color: "lightpink"
       },
       {
-        id: noteId++,
-        title: "Testing 2",
-        content:
-          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam impedit officiis alias nostrum modi debitis iusto saepe excepturi iste doloribus reiciendis, voluptatum, neque consequuntur repellat provident, omnis cum voluptas sed.",
-        tag: { value: "personal", color: "lightpink", title: "Personal" },
-        date: "31 October, 2018"
+        value: "work",
+        title: "Work",
+        color: "aquamarine"
       },
       {
-        id: noteId++,
-        title: "Testing 3",
-        content:
-          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti reprehenderit, quasi optio veritatis dignissimos magnam porro inventore enim sed eius mollitia asperiores nulla ad pariatur nostrum explicabo similique. Repellat, laudantium.",
-        tag: { value: "work", title: "Work", color: "aquamarine" },
-        date: "19 March, 2019"
-      },
-      {
-        id: noteId++,
-        title:
-          "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil qui",
-        content:
-          "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil qui accusantium dignissimos quas perferendis reiciendis beatae natus soluta, nesciunt consectetur tempora, autem doloremque iure nam ipsum suscipit odio laboriosam ullam.",
-        tag: { value: "misc", title: "Miscellaneous", color: "lightyellow" },
-        date: "09 February, 2019"
-      },
-      {
-        id: noteId++,
-        title: "Testing 5",
-        content:
-          "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolor fugiat repellat officia? Suscipit sint aliquid quibusdam temporibus vitae repudiandae impedit, iure voluptatem ratione quasi quaerat corrupti pariatur est accusamus minima.",
-        tag: { value: "misc", title: "Miscellaneous", color: "lightyellow" },
-        date: "29 May, 2019"
-      },
-      {
-        id: noteId++,
-        title: "Testing 6",
-        content:
-          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum atque nulla incidunt alias voluptate unde. Accusamus, alias quis. Eligendi veritatis animi sequi ullam mollitia quia placeat aspernatur quasi ducimus laboriosam.",
-        tag: { value: "work", title: "Work", color: "aquamarine" },
-        date: "01 January, 2020"
+        value: "misc",
+        title: "Miscellaneous",
+        color: "lightyellow"
       }
-    ]
+    ],
+    notes: JSON.parse(localStorage.getItem("notes")) || [defaultNote]
   },
-  // getters: {
-  //   getColors
-  // }
   mutations: {
+    // THEME, user Meta
+    toggleTheme(state) {
+      state.isDark = !state.isDark;
+      localStorage.setItem("prefersDarkTheme", JSON.stringify(state.isDark));
+    },
+    toggleNewUser(state) {
+      state.newUser = false;
+      localStorage.setItem("newUser", JSON.stringify(state.newUser));
+    },
     // TODOS
     // Todo Level
-    addNewTodo(state, { categoryId, todoTitle }) {
-      const catIndex = state.categories.findIndex(
-        category => category.id === categoryId
-      );
-      const newTodo = { title: todoTitle, done: false };
-      state.categories[catIndex].items.push(newTodo);
+    addNewTodo(state, { todo, catIndex }) {
+      state.categories[catIndex].items = [
+        ...state.categories[catIndex].items,
+        todo
+      ];
+      saveTodos(state.categories);
     },
     updateTodoStatus(state, { categoryId, todo, done }) {
       const catIndex = state.categories.findIndex(
@@ -167,13 +167,13 @@ export default new Vuex.Store({
       );
       const todoIndex = state.categories[catIndex].items.indexOf(todo);
       state.categories[catIndex].items[todoIndex].done = done;
+      saveTodos(state.categories);
     },
-    deleteTodo(state, { categoryId, todo }) {
-      const catIndex = state.categories.findIndex(
-        category => category.id === categoryId
-      );
-      const todoIndex = state.categories[catIndex].items.indexOf(todo);
-      state.categories[catIndex].items.splice(todoIndex, 1);
+    deleteTodo(state, { catIndex, todo }) {
+      state.categories[catIndex].items = state.categories[
+        catIndex
+      ].items.filter(item => item !== todo);
+      saveTodos(state.categories);
     },
     // Category Level
     addNewCategory(state, newCategoryTitle) {
@@ -182,36 +182,141 @@ export default new Vuex.Store({
         id: categoryId++,
         items: []
       };
-      state.categories.push(newCategory);
+      state.categories = [newCategory, ...state.categories];
+      saveTodos(state.categories);
     },
     updateCategoryTitle(state, { categoryId, newTitle }) {
       const category = state.categories.find(cat => cat.id === categoryId);
-      category.title = newTitle;
+      let newCategory = { ...category, title: newTitle };
+      state.categories = [
+        newCategory,
+        ...state.categories.filter(cat => cat.id !== categoryId)
+      ];
+      saveTodos(state.categories);
     },
     deleteCategory(state, categoryId) {
-      const catIndex = state.categories.findIndex(cat => cat.id === categoryId);
-      state.categories.splice(catIndex, 1);
+      state.categories = state.categories.filter(cat => cat.id !== categoryId);
+      saveTodos(state.categories);
     },
     // END TODOS
     // NOTES
     addNote(state, note) {
-      state.notes.push({
-        ...note,
-        id: noteId++,
-        date: getDate()
-      });
+      state.notes = [...state.notes, note];
+      saveNotes(state.notes);
     },
     updateNote(state, note) {
-      const noteIndex = state.notes.findIndex(n => n.id === note.id);
-      const updatedNote = { ...note, date: getDate() };
-      state.notes[noteIndex] = updatedNote;
+      const updatedNote = {
+        ...note,
+        date: getDate()
+      };
+      state.notes = [updatedNote, ...state.notes.filter(n => n.id !== note.id)];
+      saveNotes(state.notes);
     },
     addNoteCategory() {},
     deleteNote(state, noteId) {
-      const noteIndex = state.notes.findIndex(note => note.id === noteId);
-      state.notes.splice(noteIndex, 1);
+      state.notes = state.notes.filter(note => note.id !== noteId);
+      saveNotes(state.notes);
     }
     // END NOTES
   },
-  actions: {}
+  actions: {
+    // TODOS
+    addNewTodo({ commit, state }, payload) {
+      return new Promise((resolve, reject) => {
+        if (canAddTodo(payload, state)) {
+          const catIndex = state.categories.findIndex(
+            category => category.id === payload.categoryId
+          );
+          if (catIndex < 0) {
+            reject("Category not found");
+          }
+          const todo = {
+            title: payload.todoTitle,
+            done: false
+          };
+          setTimeout(() => {
+            console.log(todo, catIndex);
+            commit("addNewTodo", { todo, catIndex });
+            resolve();
+          }, 500);
+        } else {
+          reject();
+        }
+      });
+    },
+    updateTodoStatus({ commit }, payload) {
+      return new Promise(resolve => {
+        commit("updateTodoStatus", payload);
+        resolve();
+      });
+    },
+    deleteTodo({ commit, state }, payload) {
+      return new Promise((resolve, reject) => {
+        const catIndex = state.categories.findIndex(
+          category => category.id === payload.categoryId
+        );
+        if (catIndex < 0) {
+          reject("Todo Not found");
+        }
+        setTimeout(() => {
+          commit("deleteTodo", { todo: payload.todo, catIndex });
+          resolve();
+        }, 500);
+      });
+    },
+    addCategory({ commit, state }, payload) {
+      return new Promise((resolve, reject) => {
+        if (canAddTodoCategory(state.categories, payload)) {
+          commit("addNewCategory", payload);
+          resolve();
+        } else {
+          reject("Cannot Add Category");
+        }
+      });
+    },
+    updateCategoryTitle({ commit, state }, { categoryId, newTitle }) {
+      return new Promise((resolve, reject) => {
+        if (canAddTodoCategory(state.categories, newTitle)) {
+          commit("updateCategoryTitle", { categoryId, newTitle });
+          resolve();
+        } else {
+          reject("Cannot update title");
+        }
+      });
+    },
+    deleteCategory({ commit }, payload) {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          commit("deleteCategory", payload);
+          resolve();
+        }, 400);
+      });
+    },
+    // NOTES
+    addNote({ commit }, payload) {
+      const note = { ...payload, id: noteId++, date: getDate() };
+      return new Promise(resolve => {
+        setTimeout(() => {
+          commit("addNote", note);
+          resolve();
+        }, 300);
+      });
+    },
+    updateNote({ commit }, payload) {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          commit("updateNote", payload);
+          resolve();
+        }, 200);
+      });
+    },
+    deleteNote({ commit }, payload) {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          commit("deleteNote", payload);
+          resolve();
+        }, 500);
+      });
+    }
+  }
 });

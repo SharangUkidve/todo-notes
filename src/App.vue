@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" :class="{ dark: isDark }">
     <app-header />
     <div class="main-container">
       <router-view />
@@ -8,9 +8,13 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import AppHeader from "./components/AppHeader";
 export default {
-  components: { AppHeader }
+  components: { AppHeader },
+  computed: {
+    ...mapState(["isDark"])
+  }
 };
 </script>
 
