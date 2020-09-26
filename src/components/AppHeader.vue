@@ -1,6 +1,9 @@
 <template>
   <header class="app-header">
-    <h1 class="app-title">TODO-NOTES</h1>
+    <div class="row">
+      <h1 class="app-title">TODO-NOTES</h1>
+      <ThemeToggle />
+    </div>
     <nav class="app-header-nav">
       <ul class="nav-list">
         <li v-for="route of routes" :key="route.name" class="nav-list-item">
@@ -20,7 +23,9 @@
 </template>
 
 <script>
+import ThemeToggle from "./ThemeToggle";
 export default {
+  components: { ThemeToggle },
   data() {
     return {
       routes: [
