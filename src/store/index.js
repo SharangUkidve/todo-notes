@@ -235,7 +235,6 @@ export default new Vuex.Store({
             done: false
           };
           setTimeout(() => {
-            console.log(todo, catIndex);
             commit("addNewTodo", { todo, catIndex });
             resolve();
           }, 500);
