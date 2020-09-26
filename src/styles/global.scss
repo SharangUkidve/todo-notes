@@ -14,7 +14,6 @@ body {
   box-sizing: border-box;
   font-family: inherit;
   outline: none;
-  transition: all 300ms;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-tap-highlight-color: transparent;
@@ -55,9 +54,18 @@ a {
   &-input {
     border: none;
     background-color: transparent;
+    color: inherit;
     flex: 1;
     font-size: 16px;
     padding: 0 4px;
+
+    &::placeholder {
+      color: $color-grey;
+    }
+
+    option {
+      color: initial;
+    }
   }
 }
 
@@ -116,15 +124,17 @@ a {
   justify-content: center;
   padding: 3px;
   width: 30px;
+  transition: all 300ms;
 
   i {
     font-size: 20px;
   }
 }
 
+.remove-button,
 .edit-button,
 .delete-button {
-  opacity: 0.5;
+  opacity: $icon-opacity;
 
   &:active,
   &:focus,
@@ -134,8 +144,7 @@ a {
 }
 
 .modal-open {
-  overflow: hidden;
-  height: 100vh;
+  position: fixed;
 }
 
 .align-center {
@@ -145,4 +154,8 @@ a {
 .post-text {
   align-self: center;
   font-size: 14px;
+}
+
+html {
+  overflow-y: scroll;
 }

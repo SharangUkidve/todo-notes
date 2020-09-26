@@ -78,7 +78,7 @@ export default {
   top: 0;
   z-index: 999;
   background-color: rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(1px);
 }
 .notes-container {
   display: flex;
@@ -86,7 +86,6 @@ export default {
   font-family: "Nunito", sans-serif;
   position: relative;
 }
-
 .add-button {
   @include base-button();
   background-color: $color-blue;
@@ -101,9 +100,8 @@ export default {
   width: 56px;
   z-index: 1000;
   i {
-    font-size: 32px;
+    transition: all 300ms;
   }
-
   &.rotated {
     i {
       transform: rotate(135deg);
@@ -113,15 +111,18 @@ export default {
     }
   }
 }
-
 .scalin-enter-active {
   animation: scalin 300ms;
 }
-
 .scalin-leave-active {
   animation: scalin 300ms reverse;
 }
-
+@media (prefers-reduced-motion) {
+  .scalin-enter-active,
+  .scalin-leave-active {
+    animation: none;
+  }
+}
 @keyframes scalin {
   0% {
     transform: scale(0);

@@ -47,20 +47,16 @@ export default {
 <style lang="scss">
 @import "../styles/variables.scss";
 .note {
-  box-shadow: 3px 10px 6px -6px $color-border;
-  cursor: pointer;
   display: flex;
   flex-direction: column;
   margin: 12px;
   padding: 8px 16px 16px;
-  transition: all 600ms;
+  transition: all 300ms;
+  color: #2c3e50;
   width: calc(50% - 24px);
 
   &:hover {
-    box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),
-      0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06),
-      0 22.3px 17.9px rgba(0, 0, 0, 0.072), 0 41.8px 33.4px rgba(0, 0, 0, 0.086),
-      0 100px 80px rgba(0, 0, 0, 0.12);
+    box-shadow: $box-shadow;
   }
 
   &-header {
@@ -70,21 +66,29 @@ export default {
 
   &-tag {
     flex: 0 0 100%;
-    margin: 0;
+    margin: 4px 0 -4px;
     font-size: 12px;
+    letter-spacing: -0.3px;
+    color: #666666;
   }
 
   &-title {
     margin: 0;
     flex: 1;
+    letter-spacing: -0.7px;
   }
 
   &-text {
+    line-height: 1.4;
     white-space: pre-line;
+    word-break: break-all;
+    overflow-wrap: break-word;
+    word-break: break-word;
   }
 
   &-time {
-    color: $color-grey;
+    color: #555555;
+    letter-spacing: -0.5px;
     font-size: 12px;
     margin-top: auto;
   }

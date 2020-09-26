@@ -73,13 +73,19 @@ export default {
 .app-header {
   border-bottom: $border;
   font-family: "Gochi Hand", sans-serif;
-  position: relative;
   user-select: none;
+  position: relative;
+
+  .row {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+  }
 
   .app-title {
     letter-spacing: 2px;
     margin: 0;
-    padding: 10px;
+    flex: 1;
   }
 
   &-nav {

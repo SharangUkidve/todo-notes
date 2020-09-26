@@ -258,6 +258,11 @@ export default {
 
     .category-card-header {
       background-color: $color-border;
+
+      &:hover,
+      &:focus {
+        background-color: $color-hover;
+      }
     }
 
     .category-card-body {
@@ -272,6 +277,11 @@ export default {
     display: flex;
     justify-content: space-between;
     padding: 5px;
+
+    &:hover,
+    &:focus {
+      background-color: $color-hover;
+    }
 
     .expand-button {
       color: $color-blue;

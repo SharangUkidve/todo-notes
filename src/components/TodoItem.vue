@@ -65,8 +65,12 @@ export default {
     position: relative;
   }
 
+  &:focus-within {
+    background-color: $color-hover;
+  }
+
   &:hover {
-    background-color: $color-border;
+    background-color: $color-hover;
   }
 
   &-text {
@@ -80,6 +84,7 @@ export default {
 
   .checkbox {
     margin-right: 20px;
+    position: relative;
   }
 
   .striked {
@@ -88,10 +93,18 @@ export default {
     user-select: none;
   }
 
+  .check {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
   .hidden-input {
     &:focus {
       + .checkbox {
-        border-color: $color-blue;
+        border-color: $color-checkbox-border;
       }
     }
   }

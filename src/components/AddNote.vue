@@ -142,6 +142,8 @@ export default {
   right: 0;
   bottom: 0;
   left: 0;
+  height: 100%;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -149,7 +151,7 @@ export default {
 }
 .modal {
   pointer-events: all;
-  background-color: #ffffff;
+  background-color: $color-background;
   box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),
     0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06),
     0 22.3px 17.9px rgba(0, 0, 0, 0.072), 0 41.8px 33.4px rgba(0, 0, 0, 0.086),

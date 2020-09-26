@@ -21,9 +21,11 @@ export default {
   color: $color-text;
   min-height: 100vh;
   width: 100%;
+  background-color: $color-background;
+  padding: 0 0 60px;
 
   .main-container {
-    margin: 60px auto;
+    margin: 60px auto 0;
     max-width: 1000px;
     padding: 10px;
     width: 100%;

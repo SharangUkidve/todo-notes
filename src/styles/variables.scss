@@ -1,12 +1,54 @@
-$color-red: #ff3b30;
-$color-blue: #007aff;
-$color-green: #29d398;
-$color-green-alt: #42b983;
-$color-grey: #777777;
-$color-text: #2c3e50;
-$color-border: rgba(0, 0, 0, 0.15);
+$color-red: var(--color-red);
+$color-blue: var(--color-blue);
+$color-green: var(--color-green);
+$color-green-alt: var(--color-green-alt);
+$color-grey: var(--color-grey);
+$color-text: var(--color-text);
+$color-border: var(--color-border);
+$color-background: var(--color-background);
 
+$color-checkbox-border: mix(black, #007aff, 35%);
+$icon-opacity: var(--icon-opacity);
 $border: 1px solid $color-border;
+$box-shadow: var(--box-shadow);
+$color-hover: var(--color-hover);
+
+:root {
+  --color-text: #2c3e50;
+  --color-blue: #007aff;
+  --color-red: #ff3b30;
+  --color-green: #29d398;
+  --color-green-alt: #42b983;
+  --color-grey: #777777;
+  --color-background: #ffffff;
+  --color-border: rgba(0, 0, 0, 0.15);
+  --color-hover: #efeff4;
+  --box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.072), 0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+    0 100px 80px rgba(0, 0, 0, 0.12);
+  --icon-opacity: 0.5;
+}
+
+.dark {
+  --color-background: #282828;
+  --color-text: #ffffff;
+  --color-blue: #0099ff;
+  --color-grey: #bcbcbc;
+  --color-red: #ff0000;
+  --color-border: rgba(165, 165, 165, 0.35);
+  --color-hover: #3b3b42;
+  --box-shadow: 0 2.8px 2.2px rgba(50, 50, 50, 0.094),
+    0 6.7px 5.3px rgba(50, 50, 50, 0.148), 0 12.5px 10px rgba(50, 50, 50, 0.16),
+    0 22.3px 17.9px rgba(50, 50, 50, 0.2),
+    0 41.8px 33.4px rgba(50, 50, 50, 0.286), 0 100px 80px rgba(50, 50, 50, 0.3);
+  --box-shadow: none;
+  --icon-opacity: 0.8;
+
+  @media only screen and (max-width: 600px) {
+    --color-background: #121212;
+  }
+}
 
 .slide-up-enter-active {
   animation: slide-up 300ms;
